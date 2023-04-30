@@ -1,51 +1,8 @@
-"use strict";
-import { Model } from "sequelize";
+// src/models/User.ts
+import { Column, DataType, Model, Table } from "sequelize-typescript";
 
-interface ProjectAttributes {
-  id: number;
-  title: string;
-  status: string;
+@Table({ tableName: "projects" })
+export class Project extends Model<Project> {
+  @Column({ type: DataType.STRING })
+  title!: string;
 }
-module.exports = (sequelize: any, DataTypes: any) => {
-  class Project extends Model<ProjectAttributes> implements ProjectAttributes {
-    id!: number;
-    title!: string;
-    status!: string;
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models: any) {
-      // define association here
-      Project.belongsToMany(models.User, {
-        through: "ProjectAssignments",
-        as: "Projects",
-        foreignKey: "projectId",
-      });
-    }
-  }
-  Project.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    },
-    {
-      sequelize,
-      modelName: "Project",
-    }
-  );
-  return Project;
-};

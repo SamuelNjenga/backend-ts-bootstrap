@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { Sequelize } from "sequelize-typescript";
 import { User } from "../models/user";
+import { Project } from "../models/project";
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -17,5 +18,5 @@ export const sequelize = new Sequelize(databaseName, username, password, {
   dialect: "mysql",
   port: 3306,
   logging: true, // Set to true if you want to see SQL queries in the console
-  models: [User],
+  models: [User,Project],
 });

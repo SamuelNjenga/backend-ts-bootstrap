@@ -1,15 +1,4 @@
 import { User } from "../db/models/user";
-// import * as models from '../db/models';
-
-// export const createUser = async (data: any) => {
-//   try {
-//     const user = await User.create(data);
-//     return user;
-
-//   } catch (err) {
-//     throw err;
-//   }
-// };
 
 export const createUser = async (
   data: any,
