@@ -1,39 +1,20 @@
-"use strict";
-import { Model } from "sequelize";
-module.exports = (sequelize: any, DataTypes: { INTEGER: any }) => {
-  class ProjectAssignment extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models: any) {
-      // define association here
-    }
-  }
-  ProjectAssignment.init(
-    {
-      userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-      },
-      projectId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: "Projects",
-          key: "id",
-        },
-      },
-    },
-    {
-      sequelize,
-      modelName: "ProjectAssignment",
-    }
-  );
-  return ProjectAssignment;
-};
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { Project } from "./project";
+import { User } from "./user";
+
+@Table({ tableName: "projectAssignments" })
+export class ProjectAssignment extends Model<ProjectAssignment> {
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER) // Specify the data type as INTEGER
+  userId!: number;
+
+  @ForeignKey(() => Project)
+  @Column(DataType.INTEGER)
+  projectId!: number;
+}
