@@ -1,4 +1,7 @@
+import { IncludeThroughOptions } from "sequelize/types";
 import { Project } from "../db/models/project";
+import { User } from "../db/models/user";
+import { ProjectAssignment } from "./../db/models/projectassignment";
 
 export const createProject = async (
   data: any,
@@ -40,5 +43,31 @@ export const deleteProject = async (options: any, transaction: any) => {
     return result;
   } catch (err) {
     throw err;
+  }
+};
+
+export const getProjectsByUserId = async (userId: string): Promise<User[]> => {
+  try {
+    const projects = await User.findAll({
+      include: [
+        {
+          model: Project,
+          through: {
+            model: ProjectAssignment,
+            where: {
+              userId: userId,
+            },
+          } as IncludeThroughOptions,
+        },
+      ],
+      where: {
+        id: userId,
+      },
+    });
+
+    return projects;
+  } catch (error) {
+    console.error("Error retrieving projects:", error);
+    throw error;
   }
 };

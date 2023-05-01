@@ -5,7 +5,8 @@ import {
   deleteProject,
   getProject,
   getProjects,
-  updateProject
+  getProjectsByUserId,
+  updateProject,
 } from "../services/ProjectService";
 import ReqValidator from "../utils/validator";
 
@@ -42,6 +43,21 @@ export const getAllProjects = async (
     res.status(200).json(projects);
   } catch (err) {
     next(err);
+  }
+};
+
+export const getAllProjectsByUserId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { userId } = req.params;
+
+  try {
+    const projects = await getProjectsByUserId(userId);
+    res.json(projects);
+  } catch (error) {
+    console.error("Error retrieving projects:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
